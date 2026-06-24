@@ -1,82 +1,227 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* ── Surface Palette ───────────────────────────────────── */
+  --color-surface-0: #020617;
+  --color-surface-1: #07111F;
+  --color-surface-2: #0B1220;
+  --color-surface-3: #111827;
+  --color-surface-4: #1f2937;
+
+  /* ── Brand / Cyan & Blue Overrides ─────────────────────── */
+  --color-brand-cyan: #00D4FF;
+  --color-brand-blue: #4F7CFF;
   
-  /* Modern HSL tailwind colors for premium styling */
-  --color-slate-950: #030712;
-  --color-slate-900: #0b0f19;
-  --color-slate-800: #161f30;
-  --color-slate-700: #222f47;
+  --color-cyan-300: #67e8f9;
+  --color-cyan-400: #00D4FF;
+  --color-cyan-500: #00D4FF;
+  --color-cyan-600: #0891b2;
+  --color-cyan-700: #0e7490;
+
+  --color-blue-400: #4F7CFF;
+  --color-blue-500: #4F7CFF;
+  --color-blue-600: #2563eb;
   
-  --color-brand-50: #ecfeff;
-  --color-brand-100: #cffafe;
-  --color-brand-500: #06b6d4;
+  --color-brand-300: #67e8f9;
+  --color-brand-400: #00D4FF;
+  --color-brand-500: #00D4FF;
   --color-brand-600: #0891b2;
   --color-brand-700: #0e7490;
-  
-  --animate-shimmer: shimmer 2s infinite;
-  
+
+  /* ── Slate palette overrides ───────────────────────────── */
+  --color-slate-950: #020617;
+  --color-slate-900: #07111F;
+  --color-slate-850: #0B1220;
+  --color-slate-800: #111827;
+  --color-slate-750: #1a2638;
+  --color-slate-700: #222f47;
+  --color-slate-650: #293856;
+  --color-slate-600: #334155;
+
+  /* ── Semantic ──────────────────────────────────────────── */
+  --color-success-400: #34d399;
+  --color-success-500: #10b981;
+  --color-warning-400: #fbbf24;
+  --color-warning-500: #f59e0b;
+  --color-danger-400:  #f87171;
+  --color-danger-500:  #ef4444;
+  --color-info-400:    #818cf8;
+  --color-info-500:    #6366f1;
+
+  /* ── Radius tokens ─────────────────────────────────────── */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   20px;
+  --radius-2xl:  24px;
+
+  /* ── Shadow tokens ─────────────────────────────────────── */
+  --shadow-sm:    0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md:    0 4px 12px rgba(0,0,0,0.3);
+  --shadow-lg:    0 8px 24px rgba(0,0,0,0.35);
+  --shadow-xl:    0 16px 40px rgba(0,0,0,0.4);
+  --shadow-brand: 0 0 20px rgba(0,212,255,0.15);
+  --shadow-glow:  0 0 40px rgba(0,212,255,0.08);
+
+  /* ── Animations ────────────────────────────────────────── */
+  --animate-shimmer:    shimmer 2s infinite;
+  --animate-fade-in:    fadeIn 0.2s ease-out;
+  --animate-slide-up:   slideUp 0.25s ease-out;
+  --animate-slide-down: slideDown 0.2s ease-out;
+
   @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-    100% {
-      background-position: 200% 0;
-    }
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateX(24px) scale(0.95); }
+    to   { opacity: 1; transform: translateX(0) scale(1); }
+  }
+
+  @keyframes toastOut {
+    from { opacity: 1; transform: translateX(0) scale(1); }
+    to   { opacity: 0; transform: translateX(24px) scale(0.95); }
   }
 }
 
-/* Base custom styles and premium overrides */
+/* ── Base Reset ─────────────────────────────────────────────── */
 @layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
   body {
-    background-color: var(--color-slate-950);
-    color: #f8fafc;
+    background-color: var(--color-surface-0);
+    color: #f1f5f9;
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    line-height: 1.5;
+  }
+
+  /* Focus ring — accessible, premium */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
   }
 }
 
-/* Glassmorphism utility classes */
-.glass-panel {
-  background: rgba(15, 23, 42, 0.45);
+/* ── Glassmorphism Utilities ────────────────────────────────── */
+.glass {
+  background: rgba(10, 15, 26, 0.6);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.glass-panel-glow {
-  background: rgba(15, 23, 42, 0.6);
+.glass-brand {
+  background: rgba(10, 15, 26, 0.7);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(6, 182, 212, 0.15);
-  box-shadow: 0 8px 32px 0 rgba(6, 182, 212, 0.05);
+  border: 1px solid rgba(6, 182, 212, 0.12);
+  box-shadow: var(--shadow-glow);
 }
 
+/* ── Text Gradient ──────────────────────────────────────────── */
 .text-gradient {
-  background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 50%, #0891b2 100%);
+  background: linear-gradient(135deg, #67e8f9 0%, #06b6d4 50%, #0891b2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Custom Scrollbar for modern dashboards */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+.text-gradient-warm {
+  background: linear-gradient(135deg, #a78bfa 0%, #818cf8 50%, #6366f1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--color-slate-950);
+/* ── Shimmer Skeleton ───────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-2) 25%,
+    var(--color-surface-3) 50%,
+    var(--color-surface-2) 75%
+  );
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+  border-radius: 6px;
 }
 
-::-webkit-scrollbar-thumb {
-  background: var(--color-slate-800);
-  border-radius: 9999px;
+/* ── Page Animations ────────────────────────────────────────── */
+.animate-fade-in   { animation: fadeIn 0.2s ease-out; }
+.animate-slide-up  { animation: slideUp 0.25s ease-out; }
+.animate-slide-down{ animation: slideDown 0.2s ease-out; }
+.animate-toast-in  { animation: toastIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.animate-toast-out { animation: toastOut 0.2s ease-in; }
+
+/* ── Scrollbar (webkit) ─────────────────────────────────────── */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--color-surface-0); }
+::-webkit-scrollbar-thumb { background: var(--color-surface-3); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-brand-600); }
+
+/* ── Dot Grid Background ────────────────────────────────────── */
+.bg-dot-grid {
+  background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-brand-600);
+/* ── Premium Card Hover ─────────────────────────────────────── */
+.card-hover {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+}
+.card-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ── Input base ─────────────────────────────────────────────── */
+.input-base {
+  width: 100%;
+  border-radius: var(--radius-md);
+  background: rgba(22, 31, 48, 0.8);
+  border: 1px solid rgba(34, 47, 71, 0.8);
+  padding: 10px 14px;
+  font-size: 0.875rem;
+  color: #f1f5f9;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.input-base::placeholder { color: #475569; }
+.input-base:focus {
+  border-color: var(--color-brand-500);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.12);
+}
+.input-base:disabled { opacity: 0.5; cursor: not-allowed; }
+.input-base.input-error {
+  border-color: var(--color-danger-500);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+select.input-base option {
+  background-color: var(--color-surface-2);
+  color: #f1f5f9;
 }

@@ -8,6 +8,7 @@ const AuthContext = createContext({
   loading: true,
   login: async () => {},
   logout: async () => {},
+  refreshProfile: async () => {},
 });
 
 export function AuthProvider({ children }) {
@@ -91,14 +92,21 @@ export function AuthProvider({ children }) {
     if (error) throw error;
   }, []);
 
+  const refreshProfile = useCallback(async () => {
+    if (user) {
+      await fetchUserProfile(user.id);
+    }
+  }, [user, fetchUserProfile]);
+
   // Memoize context value to prevent unneeded re-renders of consumer components
   const contextValue = useMemo(() => ({
     user,
     profile,
     loading,
     login,
-    logout
-  }), [user, profile, loading, login, logout]);
+    logout,
+    refreshProfile
+  }), [user, profile, loading, login, logout, refreshProfile]);
 
   return (
     <AuthContext.Provider value={contextValue}>
